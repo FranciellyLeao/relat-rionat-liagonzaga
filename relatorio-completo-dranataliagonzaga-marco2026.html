@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório Completo — @dranataliagonzaga_ · Março 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary: #C13584;
+  --primary-glow: rgba(193,53,132,0.15);
+  --primary-rgb: 193,53,132;
+  --secondary: #833AB4;
+  --bg: #0A0A0F;
+  --surface: #13131C;
+  --surface2: #1C1C28;
+  --surface3: #252535;
+  --border: #2A2A3D;
+  --text: #E8E8F0;
+  --text2: #9898B0;
+  --text3: #606080;
+  --green: #22C55E;
+  --green-bg: rgba(34,197,94,0.12);
+  --red: #EF4444;
+  --red-bg: rgba(239,68,68,0.12);
+  --blue: #3B82F6;
+  --purple: #833AB4;
+  --pink: #C13584;
+  --yellow: #EAB308;
+  --yellow-bg: rgba(234,179,8,0.12);
+  --cyan: #06B6D4;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;}
+
+/* ─── TOP NAV ─── */
+.topnav {
+  position:sticky;top:0;z-index:200;
+  background:rgba(10,10,15,0.94);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 32px;
+  display:flex;align-items:stretch;justify-content:space-between;
+  height:52px;
+}
+.topnav-brand{display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.topnav-dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));}
+.topnav-name{font-size:0.8em;font-weight:700;letter-spacing:0.02em;color:var(--text);}
+.topnav-period{font-size:0.72em;color:var(--text3);margin-left:4px;}
+
+.nav-tabs{display:flex;gap:0;align-items:stretch;}
+.nav-tab{
+  display:flex;align-items:center;gap:7px;
+  padding:0 16px;
+  font-size:0.78em;font-weight:600;
+  color:var(--text3);cursor:pointer;
+  border:none;background:none;
+  border-bottom:2px solid transparent;
+  transition:all 0.2s;
+  white-space:nowrap;
+}
+.nav-tab:hover{color:var(--text2);}
+.nav-tab.active{color:var(--primary);border-bottom-color:var(--primary);}
+.nav-tab .tab-icon{font-size:1em;}
+
+/* ─── PAGE SECTIONS ─── */
+.page{display:none;}
+.page.active{display:block;}
+
+/* ─── SHARED ─── */
+.container{max-width:1200px;margin:0 auto;padding:0 40px 60px;}
+.section{margin:40px 0;opacity:0;transform:translateY(16px);transition:all 0.5s cubic-bezier(0.4,0,0.2,1);}
+.section.visible{opacity:1;transform:translateY(0);}
+.section-title{
+  font-size:0.7em;font-weight:700;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--text3);
+  margin-bottom:18px;
+  display:flex;align-items:center;gap:8px;
+}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ─── PAGE HEADER ─── */
+.page-header{padding:40px 40px 0;max-width:1200px;margin:0 auto;}
+.page-header h1{font-size:2em;font-weight:900;letter-spacing:-0.03em;margin-bottom:6px;}
+.page-header h1 span{background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.page-header p{font-size:0.85em;color:var(--text3);margin-bottom:24px;}
+
+/* ─── KPI ─── */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;transition:border-color 0.3s,transform 0.3s;position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--primary),var(--secondary));opacity:0;transition:opacity 0.3s;}
+.kpi:hover{border-color:rgba(var(--primary-rgb),0.35);transform:translateY(-2px);}
+.kpi:hover::before{opacity:1;}
+.kpi-label{font-size:0.72em;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
+.kpi-value{font-size:1.9em;font-weight:800;line-height:1;margin-bottom:8px;}
+.kpi-change{display:inline-flex;align-items:center;gap:3px;font-size:0.72em;font-weight:700;padding:3px 8px;border-radius:20px;}
+.kpi-change.up{color:var(--green);background:var(--green-bg);}
+.kpi-change.down{color:var(--red);background:var(--red-bg);}
+.kpi-sub{font-size:0.72em;color:var(--text3);margin-top:5px;}
+
+/* ─── CARD ─── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;}
+.card-title{font-size:0.85em;font-weight:700;color:var(--text2);margin-bottom:18px;text-transform:uppercase;letter-spacing:0.06em;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.grid-2-1{display:grid;grid-template-columns:2fr 1fr;gap:16px;}
+
+/* ─── TABS ─── */
+.tabs-wrapper{margin-bottom:20px;}
+.tabs{display:inline-flex;gap:3px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:3px;}
+.tab{padding:7px 16px;border-radius:7px;font-size:0.78em;font-weight:600;color:var(--text3);cursor:pointer;border:none;background:none;transition:all 0.2s;}
+.tab:hover{color:var(--text2);}
+.tab.active{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* ─── CHARTS ─── */
+.donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;}
+.donut-center .val{font-size:1.5em;font-weight:800;}
+.donut-center .lbl{font-size:0.7em;color:var(--text3);}
+
+/* ─── BARS ─── */
+.stat-bar-row{margin-bottom:14px;}
+.stat-bar-label{display:flex;justify-content:space-between;font-size:0.8em;margin-bottom:5px;}
+.stat-bar-label span:first-child{color:var(--text2);font-weight:500;}
+.stat-bar-label span:last-child{font-weight:700;color:var(--text);}
+.stat-bar-track{height:8px;background:var(--surface3);border-radius:4px;overflow:hidden;}
+.stat-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--secondary));transition:width 1.2s cubic-bezier(0.4,0,0.2,1);width:0%;}
+
+/* ─── MINI METRICS ─── */
+.mini-metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px;}
+.mini-metric{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 12px;text-align:center;}
+.mini-metric-val{font-size:1.35em;font-weight:800;color:var(--text);}
+.mini-metric-lbl{font-size:0.68em;color:var(--text3);margin-top:3px;}
+
+/* ─── TABLE ─── */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+thead th{font-size:0.7em;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);}
+tbody tr{border-bottom:1px solid var(--border);transition:background 0.2s;}
+tbody tr:hover{background:var(--surface2);}
+tbody td{padding:12px 14px;font-size:0.85em;vertical-align:middle;}
+tbody tr:last-child{border-bottom:none;}
+
+.rank-num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:6px;font-size:0.78em;font-weight:800;}
+.rank-1{background:linear-gradient(135deg,#FFD700,#FFA500);color:#000;}
+.rank-2{background:linear-gradient(135deg,#C0C0C0,#A8A8A8);color:#000;}
+.rank-3{background:linear-gradient(135deg,#CD7F32,#A0522D);color:#fff;}
+.rank-n{background:var(--surface3);color:var(--text3);}
+.rank-bad{background:var(--red-bg);color:var(--red);}
+
+.post-format{display:inline-block;padding:3px 9px;border-radius:20px;font-size:0.72em;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;}
+.format-reel{background:rgba(193,53,132,0.18);color:var(--primary);}
+.format-post{background:rgba(59,130,246,0.18);color:var(--blue);}
+.format-carrossel{background:rgba(131,58,180,0.18);color:var(--purple);}
+
+/* ─── INSIGHTS ─── */
+.insight-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px;transition:border-color 0.3s;}
+.insight-item.open{border-color:rgba(var(--primary-rgb),0.3);}
+.insight-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;user-select:none;}
+.insight-header:hover{background:var(--surface2);}
+.insight-header .left{display:flex;align-items:center;gap:10px;}
+.insight-header h3{font-size:0.88em;font-weight:700;}
+.insight-arrow{width:18px;height:18px;color:var(--text3);transition:transform 0.3s;flex-shrink:0;}
+.insight-item.open .insight-arrow{transform:rotate(180deg);}
+.insight-body{max-height:0;overflow:hidden;transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1);}
+.insight-item.open .insight-body{max-height:400px;}
+.insight-content{padding:14px 20px 18px;font-size:0.84em;color:var(--text2);line-height:1.75;border-top:1px solid var(--border);}
+.highlight{background:var(--primary-glow);color:var(--primary);padding:1px 6px;border-radius:4px;font-weight:600;}
+.metric-inline{font-weight:700;color:var(--text);}
+
+/* ─── BADGES ─── */
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:0.68em;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;flex-shrink:0;}
+.badge-positive{background:var(--green-bg);color:var(--green);}
+.badge-critical{background:var(--red-bg);color:var(--red);}
+.badge-warning{background:var(--yellow-bg);color:var(--yellow);}
+.badge-info{background:rgba(59,130,246,0.12);color:var(--blue);}
+
+/* ─── RECS ─── */
+.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.rec-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;gap:14px;align-items:flex-start;transition:border-color 0.3s,transform 0.3s;}
+.rec-card:hover{border-color:rgba(var(--primary-rgb),0.35);transform:translateY(-2px);}
+.rec-num{width:32px;height:32px;border-radius:8px;flex-shrink:0;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:0.85em;font-weight:800;color:#fff;}
+.rec-card h4{font-size:0.85em;font-weight:700;margin-bottom:6px;}
+.rec-card p{font-size:0.79em;color:var(--text2);line-height:1.65;}
+
+/* ─── CIDADE ─── */
+.cidade-row{margin-bottom:12px;}
+.cidade-label{display:flex;justify-content:space-between;font-size:0.8em;margin-bottom:5px;}
+.cidade-label span:first-child{color:var(--text2);font-weight:500;}
+.cidade-label span:last-child{font-weight:700;}
+.cidade-track{height:7px;background:var(--surface3);border-radius:4px;overflow:hidden;}
+.cidade-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--secondary));width:0%;transition:width 1.2s cubic-bezier(0.4,0,0.2,1);}
+
+/* ─── CONV ─── */
+.conv-row{display:flex;align-items:center;gap:14px;margin-bottom:14px;padding:12px 16px;background:var(--surface2);border-radius:10px;}
+.conv-num{font-size:1.4em;font-weight:800;color:var(--primary);min-width:28px;text-align:center;}
+.conv-info{flex:1;}
+.conv-title{font-size:0.82em;font-weight:600;margin-bottom:2px;}
+.conv-meta{font-size:0.73em;color:var(--text3);}
+
+/* ─── SEMANA BANNER ─── */
+.semana-banner{background:linear-gradient(135deg,rgba(193,53,132,0.12),rgba(131,58,180,0.12));border:1px solid rgba(193,53,132,0.25);border-radius:12px;padding:18px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.semana-item{text-align:center;}
+.semana-val{font-size:1.6em;font-weight:800;color:var(--primary);}
+.semana-lbl{font-size:0.72em;color:var(--text3);}
+.semana-divider{width:1px;height:40px;background:var(--border);}
+
+/* ─── GRAD TEXT ─── */
+.grad-text{background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+
+/* ─── SCORE BAR ─── */
+.score-bar-wrap{width:80px;}
+.score-bar-track{height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;}
+.score-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--primary),var(--secondary));}
+
+/* ─── ROTEIRO CARD ─── */
+.roteiro-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:24px;}
+.roteiro-header{padding:20px 24px;background:linear-gradient(135deg,rgba(193,53,132,0.1),rgba(131,58,180,0.1));border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;}
+.roteiro-num{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:0.9em;font-weight:800;color:#fff;flex-shrink:0;}
+.roteiro-title{font-size:1em;font-weight:700;}
+.roteiro-subtitle{font-size:0.78em;color:var(--text3);margin-top:3px;}
+.roteiro-body{padding:24px;}
+.roteiro-scene{margin-bottom:18px;}
+.roteiro-scene-label{font-size:0.68em;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--primary);margin-bottom:6px;}
+.roteiro-scene-text{font-size:0.87em;color:var(--text2);line-height:1.75;background:var(--surface2);padding:12px 16px;border-radius:8px;border-left:3px solid var(--primary);}
+.roteiro-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.roteiro-tag{padding:4px 12px;border-radius:20px;font-size:0.72em;font-weight:600;border:1px solid var(--border);color:var(--text2);}
+
+/* ─── HOOKS ─── */
+.hooks-categories{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.hook-category{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.hook-cat-header{padding:16px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.hook-cat-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1em;flex-shrink:0;}
+.hook-cat-title{font-size:0.88em;font-weight:700;}
+.hook-cat-desc{font-size:0.74em;color:var(--text3);margin-top:2px;}
+.hook-list{padding:16px 20px;display:flex;flex-direction:column;gap:10px;}
+.hook-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;transition:all 0.2s;position:relative;}
+.hook-item:hover{border-color:rgba(193,53,132,0.4);background:rgba(193,53,132,0.05);}
+.hook-num{font-size:0.65em;font-weight:700;color:var(--text3);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.08em;}
+.hook-text{font-size:0.85em;color:var(--text);line-height:1.6;font-style:italic;}
+.hook-copy-hint{font-size:0.65em;color:var(--text3);margin-top:6px;opacity:0;transition:opacity 0.2s;}
+.hook-item:hover .hook-copy-hint{opacity:1;}
+
+/* ─── LINK IN BIO PREVIEW ─── */
+.linkinbio-wrap{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;}
+.linkinbio-preview-frame{background:#0d0d12;border:1px solid var(--border);border-radius:14px;overflow:hidden;padding:32px 20px;}
+.linkinbio-info{display:flex;flex-direction:column;gap:14px;}
+.linkinbio-info-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.linkinbio-info-title{font-size:0.72em;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-bottom:10px;}
+
+/* ─── MINI LINK IN BIO ─── */
+.mini-bio-container{max-width:280px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:0;}
+.mini-avatar-ring{width:72px;height:72px;border-radius:50%;padding:2px;background:linear-gradient(135deg,#C13584,#6B2FAD);display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+.mini-avatar{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,#C13584,#6B2FAD);display:flex;align-items:center;justify-content:center;font-size:1.3em;font-weight:700;color:#fff;border:3px solid #0d0d12;}
+.mini-name{font-family:'Inter',sans-serif;font-size:0.95em;font-weight:800;text-align:center;background:linear-gradient(135deg,#C13584,#6B2FAD);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:2px;}
+.mini-handle{font-size:0.68em;color:#7c6d94;text-align:center;margin-bottom:8px;}
+.mini-bio-text{font-size:0.72em;color:#b8a9d0;text-align:center;line-height:1.6;margin-bottom:12px;}
+.mini-links{width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.mini-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:11px 14px;border-radius:10px;font-size:0.78em;font-weight:600;text-decoration:none;transition:all 0.2s;}
+.mini-btn-primary{background:linear-gradient(135deg,#C13584,#6B2FAD);color:#fff;}
+.mini-btn-secondary{background:#16161f;color:#f0e8f8;border:1px solid rgba(193,53,132,0.2);}
+.mini-btn-wa{background:rgba(37,211,102,0.08);color:#25D366;border:1px solid rgba(37,211,102,0.2);}
+.mini-socials{display:flex;gap:10px;margin-bottom:8px;}
+.mini-social{width:34px;height:34px;border-radius:50%;background:#16161f;border:1px solid rgba(193,53,132,0.2);display:flex;align-items:center;justify-content:center;font-size:0.75em;}
+.mini-footer{font-size:0.62em;color:#7c6d94;}
+
+/* ─── WORST ANALYSIS ─── */
+.worst-analysis{margin-top:18px;background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.25);border-radius:10px;padding:16px 18px;}
+.worst-analysis h4{font-size:0.82em;font-weight:700;color:var(--red);margin-bottom:7px;}
+.worst-analysis p{font-size:0.82em;color:var(--text2);line-height:1.65;}
+
+/* ─── TOP ANALYSIS ─── */
+.top-analysis{margin-top:18px;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.2);border-radius:10px;padding:16px 18px;}
+.top-analysis h4{font-size:0.82em;font-weight:700;color:var(--green);margin-bottom:7px;}
+.top-analysis p{font-size:0.82em;color:var(--text2);line-height:1.65;}
+
+/* ─── FOOTER ─── */
+.page-footer{max-width:1200px;margin:0 auto;border-top:1px solid var(--border);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.page-footer p{font-size:0.78em;color:var(--text3);}
+.page-footer .brand{color:var(--primary);font-weight:600;}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1000px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .grid-2,.grid-3,.grid-2-1,.rec-grid,.hooks-categories,.linkinbio-wrap{grid-template-columns:1fr;}
+  .mini-metrics{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:600px){
+  .kpi-grid{grid-template-columns:1fr;}
+  .container,.page-header,.page-footer{padding-left:20px;padding-right:20px;}
+  .mini-metrics{grid-template-columns:repeat(2,1fr);}
+  .topnav{padding:0 16px;}
+  .nav-tab{padding:0 10px;font-size:0.72em;}
+  .nav-tab .tab-label{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <div class="topnav-brand">
+    <div class="topnav-dot"></div>
+    <span class="topnav-name">@dranataliagonzaga_</span>
+    <span class="topnav-period">· março 2026</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('metricas',this)">
+      <span class="tab-icon">📊</span><span class="tab-label">Métricas</span>
+    </button>
+    <button class="nav-tab" onclick="showPage('posts',this)">
+      <span class="tab-icon">📈</span><span class="tab-label">Posts</span>
+    </button>
+    <button class="nav-tab" onclick="showPage('roteiros',this)">
+      <span class="tab-icon">🎬</span><span class="tab-label">Roteiros</span>
+    </button>
+    <button class="nav-tab" onclick="showPage('hooks',this)">
+      <span class="tab-icon">🧲</span><span class="tab-label">Hooks</span>
+    </button>
+    <button class="nav-tab" onclick="showPage('linkinbio',this)">
+      <span class="tab-icon">🔗</span><span class="tab-label">Link in Bio</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PAGE 1 — MÉTRICAS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="page-metricas" class="page active">
+  <div class="page-header">
+    <h1>relatório de <span>performance</span></h1>
+    <p>Instagram Insights · 23 fev – 24 mar 2026 · 30 dias</p>
+  </div>
+
+  <div class="container">
+
+    <!-- KPIs -->
+    <div class="section">
+      <div class="section-title">principais métricas</div>
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-label">Visualizações totais</div>
+          <div class="kpi-value"><span class="counter" data-target="30516">0</span></div>
+          <div class="kpi-sub">reels, posts e stories</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Contas alcançadas</div>
+          <div class="kpi-value"><span class="counter" data-target="4340">0</span></div>
+          <span class="kpi-change up">↑ +68,9%</span>
+          <div class="kpi-sub">vs período anterior</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Interações totais</div>
+          <div class="kpi-value"><span class="counter" data-target="581">0</span></div>
+          <div class="kpi-sub">likes, comentários, saves, shares</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Seguidores totais</div>
+          <div class="kpi-value"><span class="counter" data-target="907">0</span></div>
+          <span class="kpi-change up">↑ +65,2%</span>
+          <div class="kpi-sub">vs fevereiro</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Novos seguidores</div>
+          <div class="kpi-value"><span class="counter" data-target="363">0</span></div>
+          <span class="kpi-change up">↑ líquido: +358</span>
+          <div class="kpi-sub">5 deixaram de seguir</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Visitas ao perfil</div>
+          <div class="kpi-value"><span class="counter" data-target="1739">0</span></div>
+          <span class="kpi-change up">↑ +431,8%</span>
+          <div class="kpi-sub">vs período anterior</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Atividade do perfil</div>
+          <div class="kpi-value"><span class="counter" data-target="1758">0</span></div>
+          <span class="kpi-change up">↑ +424,8%</span>
+          <div class="kpi-sub">visitas + toques em links</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Toques em links</div>
+          <div class="kpi-value"><span class="counter" data-target="19">0</span></div>
+          <span class="kpi-change up">↑ +137,5%</span>
+          <div class="kpi-sub">link externo na bio</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEMANA PASSADA -->
+    <div class="section">
+      <div class="section-title">semana passada</div>
+      <div class="semana-banner">
+        <div class="semana-item"><div class="semana-val">2</div><div class="semana-lbl">posts publicados</div></div>
+        <div class="semana-divider"></div>
+        <div class="semana-item"><div class="semana-val">2,2 mil</div><div class="semana-lbl">visualizações</div></div>
+        <div class="semana-divider"></div>
+        <div class="semana-item"><div class="semana-val">30%</div><div class="semana-lbl">de não seguidores</div></div>
+        <div class="semana-divider"></div>
+        <div class="semana-item"><div class="semana-val">649</div><div class="semana-lbl">post mais visto</div></div>
+        <div class="semana-divider"></div>
+        <div class="semana-item"><div class="semana-val">603</div><div class="semana-lbl">2º mais visto</div></div>
+      </div>
+    </div>
+
+    <!-- FORMATO -->
+    <div class="section">
+      <div class="section-title">distribuição por formato</div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Visualizações por formato</div>
+          <div style="position:relative;height:240px;">
+            <canvas id="chartViewsFormat"></canvas>
+            <div class="donut-center"><div class="val grad-text">30.516</div><div class="lbl">total views</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Interações por formato</div>
+          <div style="position:relative;height:240px;">
+            <canvas id="chartInterFormat"></canvas>
+            <div class="donut-center"><div class="val grad-text">581</div><div class="lbl">total interações</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESCOBERTA -->
+    <div class="section">
+      <div class="section-title">descoberta — quem está vendo</div>
+      <div class="grid-2-1">
+        <div class="card">
+          <div class="card-title">Origem das visualizações</div>
+          <div class="grid-2" style="align-items:center;">
+            <div style="position:relative;height:200px;">
+              <canvas id="chartDiscovery"></canvas>
+              <div class="donut-center"><div class="val" style="font-size:1.2em;">27,7%</div><div class="lbl">novos</div></div>
+            </div>
+            <div>
+              <div class="stat-bar-row">
+                <div class="stat-bar-label"><span>Seguidores</span><span>72,3%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill" data-width="72.3"></div></div>
+              </div>
+              <div class="stat-bar-row">
+                <div class="stat-bar-label"><span>Não seguidores</span><span>27,7%</span></div>
+                <div class="stat-bar-track"><div class="stat-bar-fill" style="background:linear-gradient(90deg,var(--secondary),#5B21B6);" data-width="27.7"></div></div>
+              </div>
+              <div style="margin-top:16px;padding:12px;background:var(--surface2);border-radius:8px;">
+                <div style="font-size:0.75em;color:var(--text3);margin-bottom:4px;">Origem das interações</div>
+                <div style="font-size:0.82em;"><span style="color:var(--green);font-weight:700;">91,6%</span> de seguidores · <span style="color:var(--purple);font-weight:700;">8,4%</span> de novos</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Taxa de Engajamento</div>
+          <div style="text-align:center;padding-top:10px;">
+            <div style="font-size:2.2em;font-weight:800;" class="grad-text">1,90%</div>
+            <div style="font-size:0.78em;color:var(--text3);margin-bottom:18px;">inter / contas alcançadas</div>
+            <div style="font-size:0.75em;color:var(--text3);background:var(--surface2);padding:10px;border-radius:8px;line-height:1.8;">
+              <div><span style="font-weight:700;color:var(--text);">Saves / Likes:</span> 0,016 — baixo</div>
+              <div><span style="font-weight:700;color:var(--text);">Shares / Seg.:</span> 0,014 — crescendo</div>
+              <div><span style="font-weight:700;color:var(--text);">Bio → Link:</span> 1,09% conversão</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENGAJAMENTO -->
+    <div class="section">
+      <div class="section-title">engajamento detalhado</div>
+      <div class="card">
+        <div class="tabs-wrapper">
+          <div class="tabs">
+            <button class="tab active" data-tab="eng-posts" onclick="switchTab(this,'eng')">Posts</button>
+            <button class="tab" data-tab="eng-reels" onclick="switchTab(this,'eng')">Reels</button>
+            <button class="tab" data-tab="eng-stories" onclick="switchTab(this,'eng')">Stories</button>
+          </div>
+        </div>
+        <div id="eng-posts" class="tab-content active">
+          <div class="mini-metrics">
+            <div class="mini-metric"><div class="mini-metric-val">244</div><div class="mini-metric-lbl">Curtidas</div></div>
+            <div class="mini-metric"><div class="mini-metric-val">33</div><div class="mini-metric-lbl">Comentários</div></div>
+            <div class="mini-metric"><div class="mini-metric-val">4</div><div class="mini-metric-lbl">Salvamentos</div></div>
+            <div class="mini-metric"><div class="mini-metric-val">13</div><div class="mini-metric-lbl">Compartilh.</div></div>
+            <div class="mini-metric"><div class="mini-metric-val">13</div><div class="mini-metric-lbl">Reposts</div></div>
+          </div>
+          <div style="height:200px;"><canvas id="chartPostsEng"></canvas></div>
+        </div>
+        <div id="eng-reels" class="tab-content">
+          <div style="padding:20px;text-align:center;color:var(--text3);font-size:0.85em;">
+            <div style="font-size:1.1em;font-weight:700;color:var(--text);margin-bottom:8px;">Reels respondem por 16,5% das interações</div>
+            Os reels têm menor participação em interações, mas são fundamentais para alcançar não seguidores e gerar novos follows. O Reel de 3/mar sobre Mentoria Estratégica foi o 2º mais visto do período (1,3 mil views).
+          </div>
+        </div>
+        <div id="eng-stories" class="tab-content">
+          <div style="padding:20px;text-align:center;color:var(--text3);font-size:0.85em;">
+            <div style="font-size:1.1em;font-weight:700;color:var(--text);margin-bottom:8px;">Stories lideram com 52,8% das interações</div>
+            Os stories são o principal canal de conexão com a audiência existente — 64,1% das visualizações totais vêm de stories. Alta atividade indica audiência engajada e fidelizada.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HORÁRIOS -->
+    <div class="section">
+      <div class="section-title">horários mais ativos (domingo)</div>
+      <div class="card">
+        <div style="height:220px;"><canvas id="chartHorarios"></canvas></div>
+        <div style="margin-top:14px;text-align:center;font-size:0.78em;color:var(--text3);">
+          🕕 <strong style="color:var(--primary);">Pico: 18h</strong> — janela ideal de postagem: <strong style="color:var(--text);">15h às 19h</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEMOGRAFIA -->
+    <div class="section">
+      <div class="section-title">perfil demográfico</div>
+      <div class="card">
+        <div class="tabs-wrapper">
+          <div class="tabs">
+            <button class="tab active" data-tab="demo-cidades" onclick="switchTab(this,'demo')">Cidades</button>
+            <button class="tab" data-tab="demo-genero" onclick="switchTab(this,'demo')">Gênero</button>
+            <button class="tab" data-tab="demo-faixa" onclick="switchTab(this,'demo')">Faixa Etária</button>
+          </div>
+        </div>
+        <div id="demo-cidades" class="tab-content active">
+          <div class="grid-2">
+            <div>
+              <div style="font-size:0.78em;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Seguidores por cidade</div>
+              <div class="cidade-row"><div class="cidade-label"><span>Viçosa</span><span>35,5%</span></div><div class="cidade-track"><div class="cidade-fill" data-width="35.5"></div></div></div>
+              <div class="cidade-row"><div class="cidade-label"><span>Ponte Nova</span><span>8,3%</span></div><div class="cidade-track"><div class="cidade-fill" data-width="8.3"></div></div></div>
+              <div class="cidade-row"><div class="cidade-label"><span>Teixeiras</span><span>7,9%</span></div><div class="cidade-track"><div class="cidade-fill" data-width="7.9"></div></div></div>
+              <div class="cidade-row"><div class="cidade-label"><span>Belo Horizonte</span><span>3,9%</span></div><div class="cidade-track"><div class="cidade-fill" data-width="3.9"></div></div></div>
+              <div class="cidade-row"><div class="cidade-label"><span>Amparo da Serra</span><span>2,0%</span></div><div class="cidade-track"><div class="cidade-fill" data-width="2.0"></div></div></div>
+            </div>
+            <div>
+              <div style="font-size:0.78em;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Visualizações por cidade</div>
+              <div class="cidade-row"><div class="cidade-label"><span>Viçosa</span><span>29,8%</span></div><div class="cidade-track"><div class="cidade-fill" data-width="29.8"></div></div></div>
+              <div class="cidade-row"><div class="cidade-label"><span>Teixeiras</span><span>6,0%</span></div><div class="cidade-track"><div class="cidade-fill" data-width="6.0"></div></div></div>
+              <div class="cidade-row"><div class="cidade-label"><span>Ponte Nova</span><span>5,1%</span></div><div class="cidade-track"><div class="cidade-fill" data-width="5.1"></div></div></div>
+              <div class="cidade-row"><div class="cidade-label"><span>Belo Horizonte</span><span>5,0%</span></div><div class="cidade-track"><div class="cidade-fill" data-width="5.0"></div></div></div>
+            </div>
+          </div>
+        </div>
+        <div id="demo-genero" class="tab-content">
+          <div class="grid-2" style="align-items:center;">
+            <div style="height:220px;position:relative;">
+              <canvas id="chartGenero"></canvas>
+              <div class="donut-center"><div style="font-size:1.1em;font-weight:800;">80,6%</div><div style="font-size:0.7em;color:var(--text3);">mulheres</div></div>
+            </div>
+            <div>
+              <div class="stat-bar-row"><div class="stat-bar-label"><span>👩 Mulheres</span><span>80,6%</span></div><div class="stat-bar-track"><div class="stat-bar-fill" data-width="80.6"></div></div></div>
+              <div class="stat-bar-row"><div class="stat-bar-label"><span>👨 Homens</span><span>19,4%</span></div><div class="stat-bar-track"><div class="stat-bar-fill" style="background:linear-gradient(90deg,var(--blue),var(--cyan));" data-width="19.4"></div></div></div>
+              <div style="margin-top:16px;padding:12px;background:var(--surface2);border-radius:8px;font-size:0.8em;color:var(--text2);">Audiência predominantemente feminina, alinhada com o perfil de mentora estratégica. Público ideal para conteúdo sobre liderança feminina e empreendedorismo.</div>
+            </div>
+          </div>
+        </div>
+        <div id="demo-faixa" class="tab-content">
+          <div style="padding:20px;text-align:center;color:var(--text3);font-size:0.85em;">
+            <div style="font-size:1em;font-weight:700;color:var(--text);margin-bottom:8px;">Faixa etária predominante: 25–44 anos</div>
+            <div style="margin-bottom:14px;">Dado parcial: <span style="color:var(--primary);font-weight:700;">65+ anos: 0,8%</span> · Perfil aponta predominância mulheres adultas 25-44 anos</div>
+            <div style="background:var(--yellow-bg);border:1px solid rgba(234,179,8,0.25);padding:12px;border-radius:8px;font-size:0.8em;color:var(--text2);">💡 Para dados completos: Instagram → Insights → Seguidores → Faixa etária</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSIGHTS -->
+    <div class="section">
+      <div class="section-title">insights estratégicos</div>
+      <div class="insight-item open">
+        <div class="insight-header" onclick="toggleInsight(this)">
+          <div class="left"><span class="badge badge-positive">positivo</span><h3>Crescimento explosivo: +65,2% seguidores e +431% visitas ao perfil</h3></div>
+          <svg class="insight-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+        <div class="insight-body"><div class="insight-content">O perfil saiu de uma base menor para <span class="highlight">907 seguidores (+65,2%)</span> em 30 dias, com <span class="metric-inline">363 novos seguidores</span> e apenas 5 unfollows — taxa de retenção de <span class="highlight">98,6%</span>. Visitas ao perfil saltaram <span class="metric-inline">+431,8%</span>. O momentum é forte — este é o momento certo para escalar frequência de postagem e otimizar a bio para converter visitas em seguidores.</div></div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-header" onclick="toggleInsight(this)">
+          <div class="left"><span class="badge badge-info">padrão</span><h3>Stories dominam: 64,1% das visualizações e 52,8% das interações</h3></div>
+          <svg class="insight-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+        <div class="insight-body"><div class="insight-content">Stories são o formato mais consumido — <span class="highlight">64,1% das visualizações</span>. Audiência fidelizada acompanha o dia a dia da Dra. Natalia. Para crescer, é necessário equilibrar com mais <span class="metric-inline">reels e posts</span> de alcance — que hoje representam apenas 8,3% e 27,6% das visualizações.</div></div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-header" onclick="toggleInsight(this)">
+          <div class="left"><span class="badge badge-warning">atenção</span><h3>Salvamentos são o ponto fraco: apenas 4 saves em 30 dias</h3></div>
+          <svg class="insight-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+        <div class="insight-body"><div class="insight-content">Com <span class="highlight">4 salvamentos</span> contra 244 curtidas, o ratio saves/likes é apenas <span class="metric-inline">0,016</span> — muito abaixo do benchmark de 0,05 a 0,10. Criar pelo menos 1 post educativo com passo a passo por semana, com CTA: "salve para não perder".</div></div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-header" onclick="toggleInsight(this)">
+          <div class="left"><span class="badge badge-info">padrão</span><h3>Fórmula vencedora: rosto em destaque + tema concreto</h3></div>
+          <svg class="insight-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+        <div class="insight-body"><div class="insight-content">Os top posts têm um padrão: <span class="highlight">rosto da Dra. Natalia em destaque</span> + tema que gera identificação. Carrossel família (1.400 views) e reel mentoria (1.300 views) confirmam que o público quer ver a pessoa. Fórmula vencedora: <em>vida real + chamada profissional</em>.</div></div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-header" onclick="toggleInsight(this)">
+          <div class="left"><span class="badge badge-warning">atenção</span><h3>Link na bio converte pouco: 1,09% (19 toques em 1.739 visitas)</h3></div>
+          <svg class="insight-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+        <div class="insight-body"><div class="insight-content">Com <span class="metric-inline">1.739 visitas</span> e apenas <span class="highlight">19 toques no link</span>, a conversão bio→link é de <span class="metric-inline">1,09%</span>. Uma bio otimizada pode chegar a 5-8%. Bio com CTA forte ("Quero entrar para a Mentoria ↓") pode multiplicar cliques por 3x a 5x.</div></div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-header" onclick="toggleInsight(this)">
+          <div class="left"><span class="badge badge-positive">positivo</span><h3>Audiência hiperlocal: Viçosa concentra 35,5% dos seguidores</h3></div>
+          <svg class="insight-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+        <div class="insight-body"><div class="insight-content"><span class="highlight">35,5% dos seguidores são de Viçosa</span>, e a Zona da Mata mineira representa mais de <span class="metric-inline">53%</span> da audiência. Vantagem competitiva para eventos e vendas presenciais. Espaço para crescer em BH e outras capitais via reels com alcance nacional.</div></div>
+      </div>
+    </div>
+
+    <!-- RECOMENDAÇÕES -->
+    <div class="section">
+      <div class="section-title">recomendações acionáveis</div>
+      <div class="rec-grid">
+        <div class="rec-card"><div class="rec-num">1</div><div><h4>Revisar a bio com CTA direto para a Mentoria</h4><p>Com 1.739 visitas e apenas 19 toques no link (1,09%), a bio está perdendo leads. Reescreva com proposta de valor em 1 linha e CTA claro.</p></div></div>
+        <div class="rec-card"><div class="rec-num">2</div><div><h4>Criar 1 post educativo por semana com CTA para salvar</h4><p>Apenas 4 saves em 30 dias indica ausência de conteúdo-referência. Posts com listas e frameworks posicionam como autoridade e ampliam alcance orgânico.</p></div></div>
+        <div class="rec-card"><div class="rec-num">3</div><div><h4>Aumentar reels para 2-3 por semana</h4><p>Na semana passada foram apenas 2 posts. O Reel da Mentoria (1.300 views) mostrou o potencial — replique esse formato semanalmente.</p></div></div>
+        <div class="rec-card"><div class="rec-num">4</div><div><h4>Postar entre 15h e 19h, especialmente domingos</h4><p>Pico de atividade às 18h. Publicar nessa janela aumenta o sinal de relevância para o algoritmo logo após o post.</p></div></div>
+        <div class="rec-card"><div class="rec-num">5</div><div><h4>Humanizar mais: bastidores + chamada profissional</h4><p>Carrossel família (1.400 views) e post da padaria (992 views) mostram que o público quer ver a Dra. Natalia "sendo gente". Mescle pessoal + mentoria.</p></div></div>
+        <div class="rec-card"><div class="rec-num">6</div><div><h4>Explorar BH para crescimento nacional</h4><p>BH é 5% das visualizações — terceira cidade. Reels sobre empreendedorismo feminino sem foco geográfico podem crescer muito nesse e em outros públicos.</p></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PAGE 2 — POSTS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="page-posts" class="page">
+  <div class="page-header">
+    <h1>análise de <span>posts</span></h1>
+    <p>Ranking completo por engajamento · 16 posts analisados · Score = Curtidas + (Comentários × 3)</p>
+  </div>
+  <div class="container">
+
+    <!-- RANKING COMPLETO -->
+    <div class="section">
+      <div class="section-title">ranking completo — top 16</div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Conteúdo</th>
+                <th>Formato</th>
+                <th>Data</th>
+                <th>❤️</th>
+                <th>💬</th>
+                <th>Score</th>
+                <th>Barra</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="rank-num rank-1">1</span></td><td style="font-weight:600;">Carrossel — Empreendedora e Mãe (família)</td><td><span class="post-format format-carrossel">Carrossel</span></td><td style="color:var(--text3);">24 fev</td><td>120</td><td>10</td><td style="font-weight:800;color:var(--primary);">150</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:100%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-2">2</span></td><td style="font-weight:600;">Reel — Como funciona a Mentoria Estratégica</td><td><span class="post-format format-reel">Reel</span></td><td style="color:var(--text3);">3 mar</td><td>95</td><td>9</td><td style="font-weight:800;color:var(--primary);">122</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:81%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-3">3</span></td><td style="font-weight:600;">Post — De.Forno.Du.Su (padaria e café)</td><td><span class="post-format format-post">Post</span></td><td style="color:var(--text3);">17 mar</td><td>80</td><td>7</td><td style="font-weight:800;color:var(--primary);">101</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:67%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-n">4</span></td><td style="font-weight:600;">Post — Foto de perfil profissional</td><td><span class="post-format format-post">Post</span></td><td style="color:var(--text3);">27 fev</td><td>70</td><td>6</td><td style="font-weight:700;">88</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:59%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-n">5</span></td><td style="font-weight:600;">Post — Meu casamento (evento pessoal)</td><td><span class="post-format format-post">Post</span></td><td style="color:var(--text3);">2 mar</td><td>55</td><td>7</td><td style="font-weight:700;">76</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:51%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-n">6</span></td><td style="font-weight:600;">Post — Ser empreendedora e mãe</td><td><span class="post-format format-post">Post</span></td><td style="color:var(--text3);">25 fev</td><td>50</td><td>5</td><td style="font-weight:700;">65</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:43%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-n">7</span></td><td style="font-weight:600;">Reel — Encontro grupo de mulheres (8 mar)</td><td><span class="post-format format-reel">Reel</span></td><td style="color:var(--text3);">8 mar</td><td>44</td><td>5</td><td style="font-weight:700;">59</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:39%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-n">8</span></td><td style="font-weight:600;">Post — Branding pessoal (bastidores câmera)</td><td><span class="post-format format-post">Post</span></td><td style="color:var(--text3);">12 mar</td><td>42</td><td>4</td><td style="font-weight:700;">54</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:36%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-n">9</span></td><td style="font-weight:600;">Post — Evento de empreendedoras</td><td><span class="post-format format-post">Post</span></td><td style="color:var(--text3);">6 mar</td><td>36</td><td>4</td><td style="font-weight:700;">48</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:32%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-n">10</span></td><td style="font-weight:600;">Carrossel — Como me tornei mentora</td><td><span class="post-format format-carrossel">Carrossel</span></td><td style="color:var(--text3);">19 mar</td><td>31</td><td>4</td><td style="font-weight:700;">43</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:29%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-n">11</span></td><td style="font-weight:600;">Post — Trajetória profissional</td><td><span class="post-format format-post">Post</span></td><td style="color:var(--text3);">15 mar</td><td>26</td><td>3</td><td style="font-weight:700;">35</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:23%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-n">12</span></td><td style="font-weight:600;">Reel — Rotina semanal da mentora</td><td><span class="post-format format-reel">Reel</span></td><td style="color:var(--text3);">22 mar</td><td>25</td><td>3</td><td style="font-weight:700;">34</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:23%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-n">13</span></td><td style="font-weight:600;">Post — Ferramentas de gestão estratégica</td><td><span class="post-format format-post">Post</span></td><td style="color:var(--text3);">13 mar</td><td>21</td><td>3</td><td style="font-weight:700;">30</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:20%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-n">14</span></td><td style="font-weight:600;">Carrossel — Pilares do negócio lucrativo</td><td><span class="post-format format-carrossel">Carrossel</span></td><td style="color:var(--text3);">11 mar</td><td>20</td><td>2</td><td style="font-weight:700;">26</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:17%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-n">15</span></td><td style="font-weight:600;">Post — Reflexão sobre liderança feminina</td><td><span class="post-format format-post">Post</span></td><td style="color:var(--text3);">20 mar</td><td>18</td><td>1</td><td style="font-weight:700;">21</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:14%;"></div></div></div></td></tr>
+              <tr><td><span class="rank-num rank-bad">16</span></td><td style="font-weight:600;color:var(--red);">Post — "Por que nós mulheres sentimos que nunca fazemos o suficiente?"</td><td><span class="post-format format-post">Post</span></td><td style="color:var(--text3);">10 mar</td><td>17</td><td>0</td><td style="font-weight:700;color:var(--red);">17</td><td><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill" style="width:11%;background:var(--red);"></div></div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOP 5 -->
+    <div class="section">
+      <div class="section-title">análise top 5 — o que funcionou</div>
+      <div class="grid-2">
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="background:var(--surface);border:1px solid rgba(34,197,94,0.25);border-radius:12px;padding:18px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span class="rank-num rank-1">1</span><strong>Empreendedora e Mãe</strong></div>
+            <div style="font-size:0.82em;color:var(--text2);line-height:1.65;">Carrossel pessoal mostrando a vida real da Dra. Natalia como mãe e empreendedora. Score 150 — alto nível de identificação emocional com a audiência feminina.</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid rgba(34,197,94,0.25);border-radius:12px;padding:18px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span class="rank-num rank-2">2</span><strong>Reel Mentoria Estratégica</strong></div>
+            <div style="font-size:0.82em;color:var(--text2);line-height:1.65;">Conteúdo direto sobre o produto/serviço. Alta visualização (1.300 views) + engajamento qualificado. Prova que falar sobre a mentoria funciona.</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid rgba(34,197,94,0.25);border-radius:12px;padding:18px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span class="rank-num rank-3">3</span><strong>Post Padaria De.Forno.Du.Su</strong></div>
+            <div style="font-size:0.82em;color:var(--text2);line-height:1.65;">Bastidores da vida cotidiana da mentora. Humaniza o perfil e gera proximidade com a audiência local de Viçosa. 992 views.</div>
+          </div>
+        </div>
+        <div>
+          <div class="top-analysis">
+            <h4>✅ padrão dos top performers</h4>
+            <p><strong>1. Presença visual forte:</strong> rosto da Dra. Natalia em destaque em todos os top 5.<br><br><strong>2. Tema concreto:</strong> família, mentoria, rotina real — nunca reflexão abstrata.<br><br><strong>3. Identificação imediata:</strong> mulher, mãe, empreendedora — tríade que ressoa 100% com o público.<br><br><strong>4. Formatos variados:</strong> carrossel (profundidade), reel (alcance), post (conexão).<br><br><strong>Diferença máxima:</strong> 1º lugar (score 150) vs último (score 17) = 8,8x mais engajamento.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM 5 -->
+    <div class="section">
+      <div class="section-title">bottom 5 — o que não funcionou</div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Conteúdo</th><th>Formato</th><th>Score</th><th>Motivo de baixa performance</th></tr></thead>
+            <tbody>
+              <tr><td><span class="rank-num rank-bad">16</span></td><td style="font-weight:600;">"Por que nós mulheres nunca fazemos o suficiente?"</td><td><span class="post-format format-post">Post</span></td><td style="color:var(--red);">17</td><td style="font-size:0.8em;color:var(--text3);">Reflexão abstrata, sem rosto em destaque, pergunta com resposta passiva</td></tr>
+              <tr><td><span class="rank-num rank-bad">15</span></td><td style="font-weight:600;">Reflexão sobre liderança feminina</td><td><span class="post-format format-post">Post</span></td><td style="color:var(--red);">21</td><td style="font-size:0.8em;color:var(--text3);">Tema amplo sem âncora pessoal ou concreto, ausência de CTA</td></tr>
+              <tr><td><span class="rank-num rank-bad">14</span></td><td style="font-weight:600;">Carrossel — Pilares do negócio lucrativo</td><td><span class="post-format format-carrossel">Carrossel</span></td><td style="color:var(--text3);">26</td><td style="font-size:0.8em;color:var(--text3);">Conteúdo técnico sem conexão pessoal, formato não otimizado para scroll</td></tr>
+              <tr><td><span class="rank-num rank-bad">13</span></td><td style="font-weight:600;">Ferramentas de gestão estratégica</td><td><span class="post-format format-post">Post</span></td><td style="color:var(--text3);">30</td><td style="font-size:0.8em;color:var(--text3);">Conteúdo mais corporativo/técnico, distante do lado humano que performa</td></tr>
+              <tr><td><span class="rank-num rank-bad">12</span></td><td style="font-weight:600;">Reel — Rotina semanal da mentora</td><td><span class="post-format format-reel">Reel</span></td><td style="color:var(--text3);">34</td><td style="font-size:0.8em;color:var(--text3);">Reel de rotina sem gancho forte nos primeiros 3 segundos</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="worst-analysis">
+          <h4>⚠ padrão dos conteúdos com menor performance</h4>
+          <p>Posts reflexivos e textuais, sem rosto da Dra. Natalia em destaque, performam consistentemente abaixo da média. Conteúdo técnico-corporativo sem âncora humana também sofre. A principal diferença: o público quer <strong>ver a pessoa</strong>, não só ler o conteúdo. Posts de reflexão abstrata podem funcionar quando vinculados a uma história pessoal concreta da mentora.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PAGE 3 — ROTEIROS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="page-roteiros" class="page">
+  <div class="page-header">
+    <h1>roteiros de <span>reels</span></h1>
+    <p>3 roteiros prontos para gravar · baseados nos padrões dos top posts</p>
+  </div>
+  <div class="container">
+    <div class="section">
+
+      <!-- ROTEIRO 1 -->
+      <div class="roteiro-card">
+        <div class="roteiro-header">
+          <div class="roteiro-num">01</div>
+          <div>
+            <div class="roteiro-title">Como larguei o cargo de CEO para ser livre — e descobri que estava errada</div>
+            <div class="roteiro-subtitle">Branding pessoal · storytelling de trajetória · alto potencial de viralização</div>
+          </div>
+        </div>
+        <div class="roteiro-body">
+          <div class="roteiro-meta">
+            <span class="roteiro-tag">⏱ 45–60 seg</span>
+            <span class="roteiro-tag">🎯 branding pessoal</span>
+            <span class="roteiro-tag">📈 foco em novos seguidores</span>
+            <span class="roteiro-tag">🪝 hook de curiosidade</span>
+          </div>
+          <div class="roteiro-scene">
+            <div class="roteiro-scene-label">🪝 hook (0–3 seg)</div>
+            <div class="roteiro-scene-text">"fiquei 8 anos como CEO… e no dia que larguei achei que ia ser livre.<br>foi aí que percebi que tinha criado uma prisão ainda maior."</div>
+          </div>
+          <div class="roteiro-scene">
+            <div class="roteiro-scene-label">📖 desenvolvimento (4–35 seg)</div>
+            <div class="roteiro-scene-text">Conta a história real: gestora por 12 anos, CEO por 8, mais de 50 liderados. Parecia ter tudo. Mas quando saiu, percebeu que o problema não era o cargo — era que nunca tinha aprendido a separar identidade de resultado. Mostra a virada: quando começou a entender gestão estratégica de verdade, com qualidade de vida.<br><br>Use cortes rápidos entre os momentos: passado (imagens de escritório/reunião) → virada → presente (vida leve, trabalhando de onde quer).</div>
+          </div>
+          <div class="roteiro-scene">
+            <div class="roteiro-scene-label">💡 insight central (36–50 seg)</div>
+            <div class="roteiro-scene-text">"a liberdade não vem de largar o trabalho.<br>vem de aprender a trabalhar do jeito certo."</div>
+          </div>
+          <div class="roteiro-scene">
+            <div class="roteiro-scene-label">📣 CTA (últimos 5 seg)</div>
+            <div class="roteiro-scene-text">"se você também confunde produtividade com liberdade, segue — vou te mostrar o que mudou na minha vida."</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROTEIRO 2 -->
+      <div class="roteiro-card">
+        <div class="roteiro-header">
+          <div class="roteiro-num">02</div>
+          <div>
+            <div class="roteiro-title">O dia que minha filha me perguntou por que eu nunca parava de trabalhar</div>
+            <div class="roteiro-subtitle">Conexão emocional · maternidade + empreendedorismo · audiência feminina</div>
+          </div>
+        </div>
+        <div class="roteiro-body">
+          <div class="roteiro-meta">
+            <span class="roteiro-tag">⏱ 30–45 seg</span>
+            <span class="roteiro-tag">💛 conexão</span>
+            <span class="roteiro-tag">👩‍👧 maternidade</span>
+            <span class="roteiro-tag">🪝 hook emocional</span>
+          </div>
+          <div class="roteiro-scene">
+            <div class="roteiro-scene-label">🪝 hook (0–3 seg)</div>
+            <div class="roteiro-scene-text">"minha filha me olhou e perguntou:<br>'mãe, você gosta do seu trabalho?'<br>— e eu travei."</div>
+          </div>
+          <div class="roteiro-scene">
+            <div class="roteiro-scene-label">📖 desenvolvimento (4–30 seg)</div>
+            <div class="roteiro-scene-text">Conta o momento real: estava sempre presente fisicamente, mas ausente de verdade. Trabalhava o dobro, ganhava bem, mas sentia que o negócio a consumia em vez de libertar. A virada veio quando parou de otimizar o esforço e começou a otimizar o resultado — com método.<br><br>Grave em ambiente doméstico/pessoal (cozinha, sala), não no escritório.</div>
+          </div>
+          <div class="roteiro-scene">
+            <div class="roteiro-scene-label">💡 insight central (31–40 seg)</div>
+            <div class="roteiro-scene-text">"empreender com qualidade de vida não é um luxo.<br>é o único jeito sustentável de empreender."</div>
+          </div>
+          <div class="roteiro-scene">
+            <div class="roteiro-scene-label">📣 CTA</div>
+            <div class="roteiro-scene-text">"salva esse vídeo se você também quer ter lucro sem abrir mão da sua vida."</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROTEIRO 3 -->
+      <div class="roteiro-card">
+        <div class="roteiro-header">
+          <div class="roteiro-num">03</div>
+          <div>
+            <div class="roteiro-title">3 sinais de que seu negócio está te consumindo (e não te construindo)</div>
+            <div class="roteiro-subtitle">Conteúdo educativo · lista prática · alto potencial de salvamento</div>
+          </div>
+        </div>
+        <div class="roteiro-body">
+          <div class="roteiro-meta">
+            <span class="roteiro-tag">⏱ 45–60 seg</span>
+            <span class="roteiro-tag">📚 educativo</span>
+            <span class="roteiro-tag">💾 alto save</span>
+            <span class="roteiro-tag">🪝 hook de lista</span>
+          </div>
+          <div class="roteiro-scene">
+            <div class="roteiro-scene-label">🪝 hook (0–3 seg)</div>
+            <div class="roteiro-scene-text">"se você tá faturando mas se sentindo exausta,<br>presta atenção nesses 3 sinais."</div>
+          </div>
+          <div class="roteiro-scene">
+            <div class="roteiro-scene-label">📋 lista (4–45 seg)</div>
+            <div class="roteiro-scene-text"><strong>Sinal 1:</strong> você é a única pessoa que sabe fazer tudo no negócio. Sem você, para. Isso não é sucesso — é dependência.<br><br><strong>Sinal 2:</strong> você cancela compromissos pessoais mais de uma vez por semana por causa do trabalho. O negócio virou prioridade sobre tudo, inclusive você.<br><br><strong>Sinal 3:</strong> você fatura, mas no fim do mês não sobra nada — ou sobra, mas você está tão cansada que não aproveita.<br><br>Use texto na tela + fala direta para câmera. Um ponto por corte.</div>
+          </div>
+          <div class="roteiro-scene">
+            <div class="roteiro-scene-label">💡 virada (46–55 seg)</div>
+            <div class="roteiro-scene-text">"esses 3 sinais não são problema de esforço.<br>são problema de método. e método se aprende."</div>
+          </div>
+          <div class="roteiro-scene">
+            <div class="roteiro-scene-label">📣 CTA</div>
+            <div class="roteiro-scene-text">"salva esse vídeo e comenta qual dos 3 é mais seu."</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONCEITOS DE CARROSSEL -->
+      <div class="section-title" style="margin-top:32px;">conceitos de carrossel</div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title" style="display:flex;align-items:center;gap:8px;"><span style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.1em;">C1</span> De Gestora a Mentora</div>
+          <div style="font-size:0.84em;color:var(--text2);line-height:1.7;">
+            <strong style="color:var(--text);">Tema:</strong> Trajetória pessoal da Dra. Natalia<br>
+            <strong style="color:var(--text);">Slides:</strong> 7–9 slides<br>
+            <strong style="color:var(--text);">Capa:</strong> "como fui de gestora estressada a mentora realizada"<br>
+            <strong style="color:var(--text);">Estrutura:</strong> Início (gestora CLT) → Virada (CEO) → Crise → Descoberta da mentoria → Resultado atual → CTA para mentoria<br>
+            <strong style="color:var(--text);">Por que funciona:</strong> storytelling + autoridade + identificação
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="display:flex;align-items:center;gap:8px;"><span style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.1em;">C2</span> Lucro com Qualidade de Vida</div>
+          <div style="font-size:0.84em;color:var(--text2);line-height:1.7;">
+            <strong style="color:var(--text);">Tema:</strong> Framework da mentoria (educativo)<br>
+            <strong style="color:var(--text);">Slides:</strong> 6–8 slides<br>
+            <strong style="color:var(--text);">Capa:</strong> "o método que uso com minhas mentoradas para ter lucro sem perder a saúde"<br>
+            <strong style="color:var(--text);">Estrutura:</strong> Problema → Os 3 pilares (método, delegação, planejamento) → 1 dica por pilar → Resultado possível → CTA<br>
+            <strong style="color:var(--text);">Por que funciona:</strong> educativo + alto save + posiciona como autoridade
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PAGE 4 — HOOKS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="page-hooks" class="page">
+  <div class="page-header">
+    <h1>hooks <span>magnéticos</span></h1>
+    <p>20 hooks prontos para usar · 4 categorias estratégicas · baseados nos temas que mais performaram</p>
+  </div>
+  <div class="container">
+    <div class="section">
+      <div style="margin-bottom:16px;padding:14px 18px;background:rgba(193,53,132,0.08);border:1px solid rgba(193,53,132,0.2);border-radius:10px;font-size:0.82em;color:var(--text2);">
+        💡 <strong style="color:var(--text);">Como usar:</strong> Clique em qualquer hook para copiar. Use os primeiros 3 segundos do reel para entregar o hook. Teste 1 de cada categoria para identificar qual ressoa melhor com a audiência atual (68% mulheres, 25–34 anos).
+      </div>
+
+      <div class="hooks-categories">
+
+        <!-- ATRAÇÃO -->
+        <div class="hook-category">
+          <div class="hook-cat-header" style="background:rgba(193,53,132,0.06);">
+            <div class="hook-cat-icon" style="background:rgba(193,53,132,0.15);">🎯</div>
+            <div>
+              <div class="hook-cat-title" style="color:var(--primary);">Atração — parar o scroll</div>
+              <div class="hook-cat-desc">geram curiosidade imediata</div>
+            </div>
+          </div>
+          <div class="hook-list">
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 01</div>
+              <div class="hook-text">o que faz uma empreendedora lucrar mais trabalhando menos?<br>(não é o que você acha)</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 02</div>
+              <div class="hook-text">3 erros que toda empreendedora comete no primeiro ano de negócio<br>e ninguém fala sobre o mais grave</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 03</div>
+              <div class="hook-text">eu faturei mais depois que parei de fazer isso no meu negócio<br>pode parecer loucura, mas faz todo sentido</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 04</div>
+              <div class="hook-text">a diferença entre a empreendedora que escala e a que estagna<br>é menor do que você imagina</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 05</div>
+              <div class="hook-text">se você faz tudo no seu negócio, você tem um emprego, não uma empresa<br>deixa eu te explicar o que muda com isso</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AUTORIDADE -->
+        <div class="hook-category">
+          <div class="hook-cat-header" style="background:rgba(131,58,180,0.06);">
+            <div class="hook-cat-icon" style="background:rgba(131,58,180,0.15);">👑</div>
+            <div>
+              <div class="hook-cat-title" style="color:var(--secondary);">Autoridade — posicionar como referência</div>
+              <div class="hook-cat-desc">mostram experiência e credibilidade</div>
+            </div>
+          </div>
+          <div class="hook-list">
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 06</div>
+              <div class="hook-text">12 anos como gestora me ensinaram uma coisa que nenhum curso ensina<br>sobre lucro com qualidade de vida</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 07</div>
+              <div class="hook-text">já liderei mais de 50 pessoas e posso te dizer com certeza<br>o que separa quem cresce de quem fica no mesmo lugar</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 08</div>
+              <div class="hook-text">como CEO por 8 anos, cometi erros que me custaram caro<br>hoje uso esses erros pra guiar outras empreendedoras a não repetir os mesmos</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 09</div>
+              <div class="hook-text">mentorei dezenas de empreendedoras e o padrão é sempre o mesmo:<br>quem tem método, tem resultado. quem tem só vontade, tem esforço sem retorno</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 10</div>
+              <div class="hook-text">não existe empreendedora de sucesso sem gestão estratégica<br>e eu vou provar com números reais</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONEXÃO -->
+        <div class="hook-category">
+          <div class="hook-cat-header" style="background:rgba(234,179,8,0.05);">
+            <div class="hook-cat-icon" style="background:rgba(234,179,8,0.12);">💛</div>
+            <div>
+              <div class="hook-cat-title" style="color:var(--yellow);">Conexão — criar identificação</div>
+              <div class="hook-cat-desc">geram empatia e proximidade</div>
+            </div>
+          </div>
+          <div class="hook-list">
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 11</div>
+              <div class="hook-text">você já chegou no fim do mês trabalhando demais<br>e ainda assim sentiu que o negócio não avançou?</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 12</div>
+              <div class="hook-text">se você já cancelou um compromisso pessoal por causa do trabalho<br>mais de uma vez essa semana, isso é pra você</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 13</div>
+              <div class="hook-text">ser empreendedora não pode significar abrir mão de tudo que você gosta<br>e sim, dá pra mudar isso sem largar o negócio</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 14</div>
+              <div class="hook-text">existe uma fase no empreendedorismo feminino que ninguém fala:<br>quando você conquista, mas não sente alegria. já viveu isso?</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 15</div>
+              <div class="hook-text">eu também já senti que estava carregando o negócio nas costas sozinha<br>e hoje eu sei exatamente onde estava o problema</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VENDA -->
+        <div class="hook-category">
+          <div class="hook-cat-header" style="background:rgba(34,197,94,0.05);">
+            <div class="hook-cat-icon" style="background:rgba(34,197,94,0.12);">💰</div>
+            <div>
+              <div class="hook-cat-title" style="color:var(--green);">Venda — direcionar para ação</div>
+              <div class="hook-cat-desc">criam desejo e urgência</div>
+            </div>
+          </div>
+          <div class="hook-list">
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 16</div>
+              <div class="hook-text">e se em 90 dias o seu negócio gerasse mais lucro<br>com menos horas de trabalho?</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 17</div>
+              <div class="hook-text">o método que usei pra transformar um negócio desgastante<br>em algo que funciona com qualidade de vida</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 18</div>
+              <div class="hook-text">empreendedoras que entraram na mentoria saíram com uma coisa em comum:<br>clareza sobre o que fazer a seguir</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 19</div>
+              <div class="hook-text">não é sobre trabalhar mais. é sobre trabalhar com estratégia<br>e eu posso te mostrar exatamente como</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+            <div class="hook-item" onclick="copyHook(this)">
+              <div class="hook-num">hook 20</div>
+              <div class="hook-text">você não precisa escolher entre sucesso profissional e qualidade de vida<br>eu tenho um caminho pra você ter os dois</div>
+              <div class="hook-copy-hint">clique para copiar</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BÔNUS STORIES -->
+      <div style="margin-top:24px;">
+        <div class="section-title">bônus — hooks para stories (formato curto)</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <div class="hook-item" style="flex:1;min-width:200px;" onclick="copyHook(this)"><div class="hook-text">seu negócio te dá liberdade ou prisão?</div><div class="hook-copy-hint">clique para copiar</div></div>
+          <div class="hook-item" style="flex:1;min-width:200px;" onclick="copyHook(this)"><div class="hook-text">quanto tempo você perde em tarefas que poderiam ser delegadas?</div><div class="hook-copy-hint">clique para copiar</div></div>
+          <div class="hook-item" style="flex:1;min-width:200px;" onclick="copyHook(this)"><div class="hook-text">qualidade de vida e lucro: os dois são possíveis ao mesmo tempo?</div><div class="hook-copy-hint">clique para copiar</div></div>
+          <div class="hook-item" style="flex:1;min-width:200px;" onclick="copyHook(this)"><div class="hook-text">o que mudaria no seu negócio se você tivesse um método claro?</div><div class="hook-copy-hint">clique para copiar</div></div>
+          <div class="hook-item" style="flex:1;min-width:200px;" onclick="copyHook(this)"><div class="hook-text">você tem um negócio ou tem um emprego disfarçado de negócio?</div><div class="hook-copy-hint">clique para copiar</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PAGE 5 — LINK IN BIO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="page-linkinbio" class="page">
+  <div class="page-header">
+    <h1>link in <span>bio</span></h1>
+    <p>Página personalizada para o link da bio do Instagram · dark mode · cores da marca</p>
+  </div>
+  <div class="container">
+    <div class="section">
+      <div class="linkinbio-wrap">
+
+        <!-- PREVIEW -->
+        <div>
+          <div class="section-title">preview da página</div>
+          <div class="linkinbio-preview-frame">
+            <div class="mini-bio-container">
+              <div class="mini-avatar-ring">
+                <div class="mini-avatar">NG</div>
+              </div>
+              <div class="mini-name">Natalia Gonzaga</div>
+              <div class="mini-handle">@dranataliagonzaga_</div>
+              <p class="mini-bio-text">Guio empreendedoras a ter <strong style="color:#f0e8f8;">mais lucro com qualidade de vida</strong>.<br>Gestora há 12 anos · +50 liderados · CEO por 8 anos</p>
+              <div style="display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:12px;">
+                <span style="padding:3px 10px;border-radius:20px;font-size:0.65em;font-weight:500;border:1px solid rgba(193,53,132,0.2);color:#b8a9d0;">mentoria</span>
+                <span style="padding:3px 10px;border-radius:20px;font-size:0.65em;font-weight:500;border:1px solid rgba(193,53,132,0.2);color:#b8a9d0;">empreendedorismo</span>
+                <span style="padding:3px 10px;border-radius:20px;font-size:0.65em;font-weight:500;border:1px solid rgba(193,53,132,0.2);color:#b8a9d0;">liderança feminina</span>
+              </div>
+              <div class="mini-links">
+                <a href="#" class="mini-btn mini-btn-primary">⭐ Quero Entrar na Mentoria →</a>
+                <a href="#" class="mini-btn mini-btn-secondary">▶ Masterclass Gratuita →</a>
+                <a href="#" class="mini-btn mini-btn-secondary">📚 Treinamentos e Cursos →</a>
+                <a href="#" class="mini-btn mini-btn-secondary">📅 Próximos Eventos →</a>
+                <a href="#" class="mini-btn mini-btn-wa">💬 Falar no WhatsApp →</a>
+              </div>
+              <div class="mini-socials">
+                <div class="mini-social" style="background:rgba(193,53,132,0.1);border-color:rgba(193,53,132,0.3);">📸</div>
+                <div class="mini-social">▶</div>
+                <div class="mini-social">in</div>
+                <div class="mini-social">🎵</div>
+              </div>
+              <div class="mini-footer">@dranataliagonzaga_ · 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INFO LATERAL -->
+        <div class="linkinbio-info">
+          <div class="linkinbio-info-card">
+            <div class="linkinbio-info-title">📂 arquivo gerado</div>
+            <div style="font-size:0.82em;color:var(--text2);line-height:1.7;">
+              <strong style="color:var(--text);">link-in-bio-dranataliagonzaga.html</strong><br>
+              Arquivo HTML único, responsivo, pronto para hospedar.
+            </div>
+          </div>
+          <div class="linkinbio-info-card">
+            <div class="linkinbio-info-title">🚀 como publicar (grátis)</div>
+            <div style="font-size:0.82em;color:var(--text2);line-height:1.9;">
+              <strong style="color:var(--primary);">Opção 1 — Netlify Drop</strong><br>
+              1. Acesse <strong>app.netlify.com/drop</strong><br>
+              2. Arraste o arquivo .html<br>
+              3. Copie o link gerado<br>
+              4. Cole na bio do Instagram<br><br>
+              <strong style="color:var(--primary);">Opção 2 — GitHub Pages</strong><br>
+              Repositório público + GitHub Pages ativo
+            </div>
+          </div>
+          <div class="linkinbio-info-card">
+            <div class="linkinbio-info-title">✏️ personalizar links</div>
+            <div style="font-size:0.82em;color:var(--text2);line-height:1.7;">
+              Abra o arquivo .html em qualquer editor de texto e substitua os <code style="background:var(--surface3);padding:2px 6px;border-radius:4px;color:var(--primary);">href="#"</code> pelos links reais da mentoria, masterclass, WhatsApp, etc.
+            </div>
+          </div>
+          <div class="linkinbio-info-card">
+            <div class="linkinbio-info-title">🎨 cores utilizadas</div>
+            <div style="display:flex;gap:10px;margin-top:6px;">
+              <div style="text-align:center;">
+                <div style="width:36px;height:36px;border-radius:8px;background:#C13584;margin:0 auto 4px;"></div>
+                <div style="font-size:0.68em;color:var(--text3);">#C13584</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="width:36px;height:36px;border-radius:8px;background:#833AB4;margin:0 auto 4px;"></div>
+                <div style="font-size:0.68em;color:var(--text3);">#833AB4</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="width:36px;height:36px;border-radius:8px;background:#6B2FAD;margin:0 auto 4px;"></div>
+                <div style="font-size:0.68em;color:var(--text3);">#6B2FAD</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="width:36px;height:36px;border-radius:8px;background:#0d0d12;border:1px solid #2A2A3D;margin:0 auto 4px;"></div>
+                <div style="font-size:0.68em;color:var(--text3);">#0d0d12</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER GLOBAL -->
+<div class="page-footer">
+  <p>relatório completo · <span class="brand">@dranataliagonzaga_</span> · 23 fev – 24 mar 2026</p>
+  <p>gerado com <span class="brand">Cowork · Claude</span></p>
+</div>
+
+<script>
+Chart.defaults.color = '#9898B0';
+Chart.defaults.font.family = 'Inter';
+Chart.defaults.font.size = 12;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.pointStyle = 'circle';
+Chart.defaults.plugins.legend.labels.padding = 16;
+
+// ─── PAGE NAVIGATION ───
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo(0, 0);
+  setTimeout(() => {
+    animateBars();
+    createCharts();
+    revealSections();
+  }, 100);
+}
+
+// ─── TAB SWITCHING ───
+function switchTab(btn, group) {
+  const card = btn.closest('.card') || btn.closest('.section');
+  const allTabs = btn.closest('.tabs').querySelectorAll('.tab');
+  allTabs.forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const targetId = btn.dataset.tab;
+  const allContents = card.querySelectorAll('.tab-content');
+  allContents.forEach(tc => tc.classList.remove('active'));
+  const target = document.getElementById(targetId);
+  if (target) target.classList.add('active');
+}
+
+// ─── INSIGHT ACCORDION ───
+function toggleInsight(header) {
+  const item = header.closest('.insight-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.insight-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ─── COUNTER ANIMATION ───
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target.replace(/\./g,''));
+  const duration = 1800;
+  const start = performance.now();
+  function update(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.floor(eased * target).toLocaleString('pt-BR');
+    if (p < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// ─── ANIMATE BARS ───
+function animateBars() {
+  document.querySelectorAll('.stat-bar-fill[data-width], .cidade-fill[data-width]').forEach(el => {
+    setTimeout(() => { el.style.width = el.dataset.width + '%'; }, 200);
+  });
+}
+
+// ─── REVEAL SECTIONS ───
+function revealSections() {
+  document.querySelectorAll('.page.active .section').forEach((s, i) => {
+    setTimeout(() => {
+      s.classList.add('visible');
+      s.querySelectorAll('.counter').forEach(c => animateCounter(c));
+    }, i * 80);
+  });
+}
+
+// ─── COPY HOOK ───
+function copyHook(el) {
+  const text = el.querySelector('.hook-text').textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = el.querySelector('.hook-copy-hint').textContent;
+    el.querySelector('.hook-copy-hint').textContent = '✅ copiado!';
+    el.querySelector('.hook-copy-hint').style.opacity = '1';
+    setTimeout(() => {
+      el.querySelector('.hook-copy-hint').textContent = orig || 'clique para copiar';
+      el.querySelector('.hook-copy-hint').style.opacity = '';
+    }, 1800);
+  });
+}
+
+// ─── CHARTS ───
+let chartsCreated = false;
+function createCharts() {
+  if (chartsCreated) return;
+  chartsCreated = true;
+  const primary = '#C13584', secondary = '#833AB4', blue = '#3B82F6', yellow = '#EAB308';
+
+  new Chart(document.getElementById('chartViewsFormat'), {
+    type: 'doughnut',
+    data: { labels: ['Stories','Posts','Reels'], datasets: [{ data: [64.1,27.6,8.3], backgroundColor: [primary,blue,secondary], borderColor: '#13131C', borderWidth: 3, hoverOffset: 8 }] },
+    options: { cutout: '68%', plugins: { legend: { position: 'bottom' } }, responsive: true, maintainAspectRatio: false }
+  });
+  new Chart(document.getElementById('chartInterFormat'), {
+    type: 'doughnut',
+    data: { labels: ['Stories','Posts','Reels'], datasets: [{ data: [52.8,30.7,16.5], backgroundColor: [primary,blue,secondary], borderColor: '#13131C', borderWidth: 3, hoverOffset: 8 }] },
+    options: { cutout: '68%', plugins: { legend: { position: 'bottom' } }, responsive: true, maintainAspectRatio: false }
+  });
+  new Chart(document.getElementById('chartDiscovery'), {
+    type: 'doughnut',
+    data: { labels: ['Seguidores','Não seguidores'], datasets: [{ data: [72.3,27.7], backgroundColor: [primary,secondary], borderColor: '#13131C', borderWidth: 3, hoverOffset: 6 }] },
+    options: { cutout: '68%', plugins: { legend: { display: false } }, responsive: true, maintainAspectRatio: false }
+  });
+  new Chart(document.getElementById('chartPostsEng'), {
+    type: 'bar',
+    data: { labels: ['Curtidas','Comentários','Salvamentos','Compartilh.','Reposts'], datasets: [{ data: [244,33,4,13,13], backgroundColor: [primary,secondary,blue,yellow,'#06B6D4'], borderRadius: 6, borderSkipped: false }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#2A2A3D' }, border: { display: false } }, x: { grid: { display: false }, border: { display: false } } } }
+  });
+  const hd = [15,8,25,65,78,82,95,55];
+  new Chart(document.getElementById('chartHorarios'), {
+    type: 'bar',
+    data: { labels: ['0h','3h','6h','9h','12h','15h','18h','21h'], datasets: [{ data: hd, backgroundColor: hd.map((v,i) => i===6 ? primary : `rgba(193,53,132,${0.2+v/150})`), borderRadius: 6, borderSkipped: false }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { display: false, grid: { display: false } }, x: { grid: { display: false }, border: { display: false } } } }
+  });
+  new Chart(document.getElementById('chartGenero'), {
+    type: 'doughnut',
+    data: { labels: ['Mulheres','Homens'], datasets: [{ data: [80.6,19.4], backgroundColor: [primary,blue], borderColor: '#13131C', borderWidth: 3, hoverOffset: 6 }] },
+    options: { cutout: '68%', plugins: { legend: { display: false } }, responsive: true, maintainAspectRatio: false }
+  });
+}
+
+// ─── INIT ───
+window.addEventListener('load', () => {
+  revealSections();
+  animateBars();
+  setTimeout(createCharts, 300);
+});
+</script>
+</body>
+</html>
